@@ -1,7 +1,9 @@
 import {ReactSVG} from "react-svg";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {transform} from 'vector-drawable-svg';
 import SVG from 'react-inlinesvg';
+import { useFilePicker } from 'react-sage';
+import Head from "next/head";
 
 
 const STATE_NONE = -1
@@ -52,14 +54,15 @@ async function readFileContent(file) {
 
 export default function Home() {
 
+    const { files, onClick: onDropzoneClick, errors, HiddenFileInput } = useFilePicker({
+        maxFileSize: 1,
+    })
+
     const [dragState, setDragState] = useState(STATE_NONE)
     const [isEnabled, setEnabled] = useState(false);
     const [vectorDrawableFile, setVectorDrawableFile] = useState()
     const [transformedSvg, setTransformedSvg] = useState()
 
-    function handleFileUpload() {
-        setEnabled(!isEnabled)
-    }
 
     function dragEnter(e) {
         e.stopPropagation();
@@ -73,6 +76,19 @@ export default function Home() {
         setDragState(STATE_DRAG_LEAVE)
     }
 
+
+    async function proceedFile(file) {
+        const xmlContent = await readFileContent(file);
+        const svgContent = transformXmlOrNull(xmlContent);
+        if (!svgContent) {
+            return;
+        }
+
+        setTransformedSvg(svgContent);
+        setVectorDrawableFile(file);
+        setDragState(STATE_DROP);
+    }
+
     async function fileDrop(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -81,15 +97,7 @@ export default function Home() {
         if (files.length > 0) {
             const file = files[0]
             if (isValidFileType(file.type)) {
-                const xmlContent = await readFileContent(file);
-                const svgContent = transformXmlOrNull(xmlContent);
-                if (!svgContent) {
-                    return;
-                }
-
-                setTransformedSvg(svgContent);
-                setVectorDrawableFile(file);
-                setDragState(STATE_DROP);
+                await proceedFile(file);
                 return;
             }
         }
@@ -103,7 +111,8 @@ export default function Home() {
         e.dataTransfer.dropEffect = 'copy';
     }
 
-    function clearUpload() {
+    function clearUpload(e) {
+        e.stopPropagation();
         setDragState(STATE_NONE)
         setVectorDrawableFile(null);
         setTransformedSvg(null);
@@ -121,48 +130,68 @@ export default function Home() {
         downloadBlob(filename, transformedSvg);
     }
 
+    useEffect(() => {
+        const getDataUrls = async () => {
+            if (files.length <= 0) {
+                return;
+            }
+            const file = files[0];
+            if (isValidFileType(file.type)) {
+                await proceedFile(file);
+            }
+        }
+        getDataUrls()
+    }, [files])
+
     return (
-        <div className="vd-form-center">
-            <div className="vd-head vd-form-center">
-                <h1 className="vd-title">VectorDrawable to SVG</h1>
-                <p className="vd-subtitle">Drop a valid vector drawable file here.</p>
-                <div
-                    onDragEnter={dragEnter}
-                    onDragLeave={dragLeave}
-                    onDragOver={dragOver}
-                    onDrop={fileDrop}
-                    onClick={handleFileUpload}
-                    className={"vd-dropzone " + dropzoneClassOfState(dragState)}>
-                    <div className="vd-placeholder">
-                        <ReactSVG src="plus.svg"/>
-                    </div>
-                    <div className="vd-image-container">
-                        <div onClick={clearUpload} className="text-button-icon">
-                            <ReactSVG src="close.svg"/>
-                        </div>
-                        <div className="vd-image">
-                            <SVG src={transformedSvg} width={300} height={300} title="SVG"/>
-                        </div>
+        <>
+            <Head>
+                <title>VectorDrawable to SVG</title>
+            </Head>
+            <div className="vd-form-center">
+                <HiddenFileInput accept=".xml" multiple={false} />
+                <div className="vd-head vd-form-center">
+                    <h1 className="vd-title">VectorDrawable to SVG</h1>
+                    <p className="vd-subtitle">Drop a valid vector drawable file here.</p>
+                    <div
+                        onDragEnter={dragEnter}
+                        onDragLeave={dragLeave}
+                        onDragOver={dragOver}
+                        onDrop={fileDrop}
+                        onClick={onDropzoneClick}
 
-                        <div className="vd-filename">
-                            <p>{vectorDrawableFile?.name}</p>
+                        className={"vd-dropzone " + dropzoneClassOfState(dragState)}>
+                        <div className="vd-placeholder">
+                            <ReactSVG src="plus.svg"/>
+                        </div>
+                        <div className="vd-image-container">
+                            <div onClick={clearUpload} className="text-button-icon">
+                                <ReactSVG src="close.svg"/>
+                            </div>
+                            <div className="vd-image">
+                                <SVG src={transformedSvg} width={300} height={300} title="SVG"/>
+                            </div>
+
+                            <div className="vd-filename">
+                                <p>{vectorDrawableFile?.name}</p>
+                            </div>
                         </div>
                     </div>
+
+                    <button onClick={downloadCurrentSvg} disabled={!vectorDrawableFile} className="vd-download">
+                        <ReactSVG src="/download-circular-button.svg"/>
+                        Download
+                    </button>
+
+                    <footer className="vd-footer">
+                        <div className="vd-github">
+                            <a href="https://github.com/seanghay/vector-drawable-nextjs" target="_blank">
+                                <ReactSVG src="/github.svg"/>
+                            </a>
+                        </div>
+                    </footer>
                 </div>
-
-                <button onClick={downloadCurrentSvg} disabled={!vectorDrawableFile} className="vd-download">
-                    <ReactSVG src="/download-circular-button.svg"/>
-                    Download
-                </button>
-
-                <footer className="vd-footer">
-                    <div className="vd-github">
-                        <a href="https://github.com/seanghay/vector-drawable-nextjs" target="_blank">
-                            <ReactSVG src="/github.svg"/>
-                        </a>
-                    </div>
-                </footer>
             </div>
-        </div>
+        </>
     )
 }

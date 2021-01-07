@@ -12,6 +12,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-inlinesvg": "^2.2.2",
+    "react-sage": "^0.1.5",
     "react-svg": "^11.2.1",
     "vector-drawable-svg": "^1.0.2"
   }

@@ -12,7 +12,6 @@ export default class MyDocument extends Document {
                     <link rel="manifest" href="/site.webmanifest"/>
                     <meta name="msapplication-TileColor" content="#1F1F1F"/>
                     <meta name="theme-color" content="#1F1F1F"/>
-                    <title>VectorDrawable to SVG</title>
 
                     <meta property="og:url"                content="https://vector-drawable.vercel.app/" />
                     <meta property="og:title"              content="Android VectorDrawable to SVG" />
