@@ -262,7 +262,7 @@ button:not(:disabled):active {
 @media only screen and (max-width: 600px) {
 
     .vd-code-snippet {
-        max-width: 300px;
+        max-width: 350px;
     }
 
     .vd-title {
