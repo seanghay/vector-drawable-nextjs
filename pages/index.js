@@ -1,65 +1,169 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import {ReactSVG} from "react-svg";
+import {useState} from "react";
+import {transform} from 'vector-drawable-svg';
+import SVG from 'react-inlinesvg';
+
+
+const STATE_NONE = -1
+const STATE_DRAG_LEAVE = 0
+const STATE_DRAGGING = 1
+const STATE_DROP = 2
+
+
+function downloadBlob(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+function isValidFileType(type) {
+    if (type === 'text/xml') return true;
+    return type === 'application/xml';
+}
+
+function transformXmlOrNull(value, options) {
+    if (!value) {
+        return null;
+    }
+    try {
+        return transform(value, options)
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+function dropzoneClassOfState(state) {
+    if (state === STATE_DRAG_LEAVE) return '';
+    if (state === STATE_DRAGGING) return 'vd-highlight';
+    if (state === STATE_DROP) return 'vd-active';
+}
+
+async function readFileContent(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result)
+        reader.readAsText(file);
+    });
+}
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    const [dragState, setDragState] = useState(STATE_NONE)
+    const [isEnabled, setEnabled] = useState(false);
+    const [vectorDrawableFile, setVectorDrawableFile] = useState()
+    const [transformedSvg, setTransformedSvg] = useState()
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+    function handleFileUpload() {
+        setEnabled(!isEnabled)
+    }
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    function dragEnter(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        setDragState(STATE_DRAGGING)
+    }
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+    function dragLeave(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        setDragState(STATE_DRAG_LEAVE)
+    }
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+    async function fileDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = e.dataTransfer.files;
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        if (files.length > 0) {
+            const file = files[0]
+            if (isValidFileType(file.type)) {
+                const xmlContent = await readFileContent(file);
+                const svgContent = transformXmlOrNull(xmlContent);
+                if (!svgContent) {
+                    return;
+                }
+
+                setTransformedSvg(svgContent);
+                setVectorDrawableFile(file);
+                setDragState(STATE_DROP);
+                return;
+            }
+        }
+
+        setDragState(STATE_NONE);
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'copy';
+    }
+
+    function clearUpload() {
+        setDragState(STATE_NONE)
+        setVectorDrawableFile(null);
+        setTransformedSvg(null);
+    }
+
+    function downloadCurrentSvg() {
+        if (!transformedSvg) {
+            return;
+        }
+
+        let filename = 'output.svg';
+        if (vectorDrawableFile) {
+            filename = vectorDrawableFile.name.split('.').slice(0, -1).join('.') + "svg";
+        }
+
+        downloadBlob(filename, transformedSvg);
+    }
+
+    return (
+        <div className="vd-form-center">
+            <div className="vd-head vd-form-center">
+                <h1 className="vd-title">VectorDrawable to SVG</h1>
+                <p className="vd-subtitle">Drop your valid a vector drawable file here.</p>
+                <div
+                    onDragEnter={dragEnter}
+                    onDragLeave={dragLeave}
+                    onDragOver={dragOver}
+                    onDrop={fileDrop}
+                    onClick={handleFileUpload}
+                    className={"vd-dropzone " + dropzoneClassOfState(dragState)}>
+                    <div className="vd-placeholder">
+                        <ReactSVG src="plus.svg"/>
+                    </div>
+                    <div className="vd-image-container">
+                        <div onClick={clearUpload} className="text-button-icon">
+                            <ReactSVG src="close.svg"/>
+                        </div>
+                        <div className="vd-image">
+                            <SVG src={transformedSvg} width={300} height={300} title="SVG"/>
+                        </div>
+
+                        <div className="vd-filename">
+                            <p>{vectorDrawableFile?.name}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onClick={downloadCurrentSvg} disabled={!vectorDrawableFile} className="vd-download">
+                    <ReactSVG src="/download-circular-button.svg"/>
+                    Download
+                </button>
+
+                <footer className="vd-footer">
+                    <div className="vd-github">
+                        <a href="https://github.com/seanghay/vector-drawable-nextjs" target="_blank">
+                            <ReactSVG src="/github.svg"/>
+                        </a>
+                    </div>
+                </footer>
+            </div>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+    )
 }
