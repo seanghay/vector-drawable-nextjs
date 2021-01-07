@@ -14,10 +14,10 @@ export default class MyDocument extends Document {
                     <meta name="theme-color" content="#1F1F1F"/>
                     <title>VectorDrawable to SVG</title>
 
-                    <meta property="og:url"                content="https://vector-drawable.floo.app" />
+                    <meta property="og:url"                content="https://vector-drawable.vercel.app/" />
                     <meta property="og:title"              content="Android VectorDrawable to SVG" />
                     <meta property="og:description"        content="Quickly create an SVG out of Android VectorDrawable." />
-                    <meta property="og:image"              content="https://vector-drawable.floo.app/thumbnail-cover.png" />
+                    <meta property="og:image"              content="https://vector-drawable.vercel.app/thumbnail-cover.png" />
 
                     <meta name="twitter:card" content="Android VectorDrawable to SVG"/>
 
