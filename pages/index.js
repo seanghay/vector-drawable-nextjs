@@ -116,9 +116,8 @@ export default function Home() {
 
         let filename = 'output.svg';
         if (vectorDrawableFile) {
-            filename = vectorDrawableFile.name.split('.').slice(0, -1).join('.') + "svg";
+            filename = vectorDrawableFile.name.split('.').slice(0, -1).join('.') + ".svg";
         }
-
         downloadBlob(filename, transformedSvg);
     }
 
