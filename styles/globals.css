@@ -227,9 +227,36 @@ button:not(:disabled):active {
 
 .vd-footer {
     margin-top: 20px;
+    margin-bottom: 100px;
 }
 
 .vd-github svg {
     width: 2em;
     height: 2em;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+    .vd-title {
+        font-size: 1.8em;
+    }
+
+    .vd-subtitle {
+        font-size: 1em;
+    }
+
+    .vd-dropzone {
+        min-width: 300px;
+        min-height: 300px;
+    }
+
+    .vd-dropzone .vd-image-container .vd-filename p {
+        max-width: 300px;
+    }
+
+    button {
+        min-width: 300px;
+    }
+
 }
