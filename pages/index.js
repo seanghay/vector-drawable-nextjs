@@ -189,8 +189,16 @@ export default function Home() {
                                 <ReactSVG src="/github.svg"/>
                             </a>
                         </div>
+
+                        <h5>Or using command line</h5>
+                        <p className="vd-code-snippet">
+                            npx <span className="vd-cmd">vector-drawable-svg</span> <span className="vd-input">my-drawable.xml</span> <span className="vd-input">out.svg</span>
+                        </p>
+
                     </footer>
+
                 </div>
+
             </div>
         </>
     )

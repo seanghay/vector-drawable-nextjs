@@ -228,6 +228,7 @@ button:not(:disabled):active {
 .vd-footer {
     margin-top: 20px;
     margin-bottom: 100px;
+    text-align: center;
 }
 
 .vd-github svg {
@@ -236,11 +237,38 @@ button:not(:disabled):active {
 }
 
 
+.vd-code-snippet .vd-cmd {
+    color: var(--vd-color-primary);
+}
+
+.vd-code-snippet .vd-input {
+    color: var(--vd-color-secondary-text);
+}
+
+.vd-code-snippet {
+    background: var(--vd-color-on-surface);
+    border-radius: calc(var(--vd-size-corner-radius) / 2.5);
+    font-family: "JetBrains Mono", monospace;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255,255, 0.1);
+    position: relative;
+    white-space: nowrap;
+    max-width: 600px;
+
+    padding: 14px 18px;
+    overflow-x: auto;
+}
+
 @media only screen and (max-width: 600px) {
+
+    .vd-code-snippet {
+        max-width: 300px;
+    }
 
     .vd-title {
         font-size: 1.8em;
     }
+
 
     .vd-subtitle {
         font-size: 1em;
@@ -260,3 +288,5 @@ button:not(:disabled):active {
     }
 
 }
+
+
