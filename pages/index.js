@@ -126,7 +126,7 @@ export default function Home() {
         <div className="vd-form-center">
             <div className="vd-head vd-form-center">
                 <h1 className="vd-title">VectorDrawable to SVG</h1>
-                <p className="vd-subtitle">Drop your valid a vector drawable file here.</p>
+                <p className="vd-subtitle">Drop a valid vector drawable file here.</p>
                 <div
                     onDragEnter={dragEnter}
                     onDragLeave={dragLeave}
