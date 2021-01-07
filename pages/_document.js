@@ -13,10 +13,10 @@ export default class MyDocument extends Document {
                     <meta name="msapplication-TileColor" content="#1F1F1F"/>
                     <meta name="theme-color" content="#1F1F1F"/>
 
-                    <meta property="og:url"                content="https://vector-drawable.vercel.app/" />
-                    <meta property="og:title"              content="Android VectorDrawable to SVG" />
-                    <meta property="og:description"        content="Quickly create an SVG out of Android VectorDrawable." />
-                    <meta property="og:image"              content="https://vector-drawable.vercel.app/thumbnail-cover@2x.png" />
+                    <meta property="og:url" content="https://vector-drawable.vercel.app/"/>
+                    <meta property="og:title" content="Android VectorDrawable to SVG"/>
+                    <meta property="og:description" content="Quickly create an SVG out of Android VectorDrawable."/>
+                    <meta property="og:image" content="https://vector-drawable.vercel.app/thumbnail-cover@2x.png"/>
 
                     <meta name="twitter:card" content="Android VectorDrawable to SVG"/>
 
@@ -25,7 +25,8 @@ export default class MyDocument extends Document {
                           rel="stylesheet"/>
 
                     <link rel="preconnect" href="https://fonts.gstatic.com">
-                        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+                        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap"
+                              rel="stylesheet"/>
                 </Head>
                 <body>
                 <div className="container">
@@ -34,6 +35,6 @@ export default class MyDocument extends Document {
                 <NextScript/>
                 </body>
             </Html>
-        )
+    )
     }
-}
+    }
