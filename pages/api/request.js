@@ -1,8 +1,14 @@
+const axios = require('axios')
+
 module.exports = (req, res) => {
-    res.json({
-      body: req.body,
-      query: req.query,
-      cookies: req.cookies,
-    });
-  };
-  
+    const { method, body, url } = req.body;
+    if (method == 'GET') {
+        const { data } = await axios.get(url);
+        return res.send(data);
+    }
+
+    if (method == 'POST') {
+        const { data } = await axios.post(url, body);
+        return res.send(data);   
+    }
+};
