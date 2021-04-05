@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const { method, body, url } = req.body;
     if (method == 'GET') {
         const { data } = await axios.get(url);
