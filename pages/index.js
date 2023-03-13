@@ -1,6 +1,6 @@
-import {ReactSVG} from "react-svg";
-import {useState, useEffect} from "react";
-import {transform} from 'vector-drawable-svg';
+import { ReactSVG } from "react-svg";
+import { useState, useEffect } from "react";
+import { transform } from 'vector-drawable-svg';
 import SVG from 'react-inlinesvg';
 import { useFilePicker } from 'react-sage';
 import Head from "next/head";
@@ -162,14 +162,14 @@ export default function Home() {
 
                         className={"vd-dropzone " + dropzoneClassOfState(dragState)}>
                         <div className="vd-placeholder">
-                            <ReactSVG src="plus.svg"/>
+                            <ReactSVG src="plus.svg" />
                         </div>
                         <div className="vd-image-container">
                             <div onClick={clearUpload} className="text-button-icon">
-                                <ReactSVG src="close.svg"/>
+                                <ReactSVG src="close.svg" />
                             </div>
                             <div className="vd-image">
-                                <SVG src={transformedSvg} width={300} height={300} title="SVG"/>
+                                <SVG src={transformedSvg} width={300} height={300} title="SVG" />
                             </div>
 
                             <div className="vd-filename">
@@ -179,14 +179,14 @@ export default function Home() {
                     </div>
 
                     <button onClick={downloadCurrentSvg} disabled={!vectorDrawableFile} className="vd-download">
-                        <ReactSVG src="/download-circular-button.svg"/>
+                        <ReactSVG src="/download-circular-button.svg" />
                         Download
                     </button>
 
                     <footer className="vd-footer">
                         <div className="vd-github">
                             <a href="https://github.com/seanghay/vector-drawable-nextjs" target="_blank">
-                                <ReactSVG src="/github.svg"/>
+                                <ReactSVG src="/github.svg" />
                             </a>
                         </div>
 
@@ -201,5 +201,5 @@ export default function Home() {
 
             </div>
         </>
-    )
+        )
 }
