@@ -4,7 +4,7 @@ import { transform } from 'vector-drawable-svg';
 import SVG from 'react-inlinesvg';
 import { useFilePicker } from 'react-sage';
 import Head from "next/head";
-
+import GitHubButton from 'react-github-btn'
 
 const STATE_NONE = -1
 const STATE_DRAG_LEAVE = 0
@@ -153,6 +153,13 @@ export default function Home() {
                 <div className="vd-head vd-form-center">
                     <h1 className="vd-title">VectorDrawable to SVG</h1>
                     <p className="vd-subtitle">Drop a valid vector drawable file here.</p>
+                    <GitHubButton href="https://github.com/seanghay/vector-drawable-nextjs"
+                        data-color-scheme="no-preference: light; light: dark; dark: dark;"
+                        data-icon="octicon-star"
+                        data-size="large"
+                        data-show-count="true"
+                        aria-label="Star seanghay/vector-drawable-nextjs on GitHub"
+                    >Star</GitHubButton>
                     <div
                         onDragEnter={dragEnter}
                         onDragLeave={dragLeave}
@@ -201,5 +208,5 @@ export default function Home() {
 
             </div>
         </>
-        )
+    )
 }
