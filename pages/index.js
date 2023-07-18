@@ -29,6 +29,9 @@ function createOverridePlaceholder(value) {
 		items.push([result[1], result[2]])
 	}
 
+	if (items.length === 0) {
+		return ''
+	}
 
 	const innerElement = items.map(([tag, name]) => `  <${tag} name=${JSON.stringify(name)}>${defaults[tag] || '""'}</${tag}>`).join("\n")
 	return `
@@ -135,7 +138,10 @@ export default function Home() {
 
 		if (Object.entries(override).length === 0) {
 			const placeholder = createOverridePlaceholder(xmlContent)
-			setXmlResource(placeholder)
+			if (placeholder) {
+				setXmlResource(placeholder)
+
+			}
 		}
 
 
