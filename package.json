@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@codemirror/lang-xml": "^6.0.2",
+    "@uiw/codemirror-theme-vscode": "^4.21.7",
+    "@uiw/react-codemirror": "^4.21.7",
     "@vercel/analytics": "^0.1.11",
     "next": "13.1.6",
     "react": "18.2.0",
@@ -16,6 +19,6 @@
     "react-inlinesvg": "^3.0.2",
     "react-sage": "^0.3.16",
     "react-svg": "^16.1.6",
-    "vector-drawable-svg": "^1.0.8"
+    "vector-drawable-svg": "^1.1.0"
   }
 }
