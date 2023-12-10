@@ -227,7 +227,7 @@ export default function Home() {
 						data-show-count="true"
 						aria-label="Star seanghay/vector-drawable-nextjs on GitHub"
 					>Star</GitHubButton>
-					<p className="vd-subtitle"><small>Help us get to 100 stars on GitHub</small></p>		
+					<p className="vd-subtitle"><small>Help us get to many stars on GitHub</small></p>		
 					<div
 						onDragEnter={dragEnter}
 						onDragLeave={dragLeave}
