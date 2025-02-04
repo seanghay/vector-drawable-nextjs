@@ -1,0 +1,7 @@
+services:
+    vector-drawable:
+        image: 'ghcr.io/gitgitro/vector-drawable:latest'
+        ports:
+            - '3000:3000'
+        container_name: vector-drawable
+        restart: unless-stopped
