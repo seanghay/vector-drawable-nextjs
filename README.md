@@ -6,23 +6,23 @@ This project is based on my library called [vector-drawable-svg](https://github.
 
 ## Hosting the project with Docker
 
-<b>Grab the <a href="/docker-compose.yml">docker-compose.yml</a>  file and run
+<b>Grab the <a href="/docker-compose.yml">docker-compose.yml</a>  file and run</b>
 ```shell
 docker compose up -d
 ```
-<b>Without compose:
+<b>Without compose:</b>
 ```shell
 docker run --restart unless-stopped -p 3000:3000 -d --name "vector-drawable" ghcr.io/gitgitro/vector-drawable
 ```
 
 ## Hosting the project bare metal
 
-<b>Dev environment
+<b>Dev environment</b>
 ```shell
 npm install
 npm run dev
 ```
-<b>Prod environment
+<b>Prod environment</b>
 ```shell
 npm install
 npm run build
