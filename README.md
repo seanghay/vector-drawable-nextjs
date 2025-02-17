@@ -12,7 +12,7 @@ docker compose up -d
 ```
 <b>Without compose:</b>
 ```shell
-docker run --restart unless-stopped -p 3000:3000 -d --name "vector-drawable" ghcr.io/gitgitro/vector-drawable
+docker run --restart unless-stopped -p 80:80 -d --name "vector-drawable" ghcr.io/gitgitro/vector-drawable
 ```
 
 ## Hosting the project bare metal
