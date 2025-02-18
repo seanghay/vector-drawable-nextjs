@@ -1,0 +1,7 @@
+services:
+    vector-drawable:
+        image: 'ghcr.io/seanghay/vector-drawable:latest'
+        ports:
+            - '80:80'
+        container_name: vector-drawable
+        restart: unless-stopped
