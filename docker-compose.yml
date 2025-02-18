@@ -1,7 +1,7 @@
 services:
-    vector-drawable:
-        image: 'ghcr.io/seanghay/vector-drawable:latest'
-        ports:
-            - '80:80'
-        container_name: vector-drawable
-        restart: unless-stopped
+  vector-drawable:
+    image: ghcr.io/seanghay/vector-drawable-nextjs:main
+    ports:
+      - 80:80
+    container_name: vector-drawable
+    restart: unless-stopped
